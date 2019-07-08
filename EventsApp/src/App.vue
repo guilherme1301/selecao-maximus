@@ -1,12 +1,13 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <button class="button btn-successful">My button</button>
     <router-view/>
   </div>
 </template>
 
 <script>
-import Firebase from 'firebase'
+import firebase from 'firebase'
 
 var firebaseConfig = {
     apiKey: "AIzaSyDj_YJb7Mayjgaa72wGmYvl2j9_wXicKcY",
