@@ -5,12 +5,9 @@ import App from './App'
 import router from './router'
 import { firestorePlugin } from 'vuefire'
 
-//Import boostrap
-import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
-// import 'bootstrap/dist/css/bootstrap.min.css'
-// import 'jquery/src/jquery.js'
-// import 'bootstrap/dist/js/bootstrap.min.js'
+//Import materialize js and css
+import 'materialize-css'
+import 'materialize-css/dist/css/materialize.css'
 
 Vue.use(firestorePlugin);
 
