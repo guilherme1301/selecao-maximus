@@ -3,7 +3,7 @@
     <nav>
       <div class="nav-wrapper">
         <ul id="nav-mobile" class="hide-on-med-and-down center">
-          <router-link tag="li" to="/" active-class="active" exact><a>Todos os eventos</a></router-link>
+          <router-link tag="li" to="/" active-class="active" exact><a>Home</a></router-link>
           <router-link tag="li" to="/addNewEvent" active-class="active" exact><a>Adicionar evento<i class="material-icons right">add</i></a></router-link>
         </ul>
       </div>
