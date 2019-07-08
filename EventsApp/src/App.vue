@@ -1,30 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <button class="button btn-successful">My button</button>
-    <router-view/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase'
-
-var firebaseConfig = {
-    apiKey: "AIzaSyDj_YJb7Mayjgaa72wGmYvl2j9_wXicKcY",
-    authDomain: "events-manager-agency.firebaseapp.com",
-    databaseURL: "https://events-manager-agency.firebaseio.com",
-    projectId: "events-manager-agency",
-    storageBucket: "",
-    messagingSenderId: "320433886777",
-    appId: "1:320433886777:web:eb531acf2e973d52"
-  };
-
-// Initialize Firebase
-let app = firebase.initializeApp(firebaseConfig);
-let db = app.database();
 
 export default {
-  name: 'App'
+  name: 'App',
+  data(){
+    return {
+    }
+  }
 }
 </script>
 
