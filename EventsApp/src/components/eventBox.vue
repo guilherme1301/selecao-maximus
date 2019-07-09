@@ -19,7 +19,7 @@
                 <p>08:00 - 16:00</p>
             </div>
             <div class="icons col m2 s12">
-                <a href="#!" class="btn-small teal lighten-1"><i class="material-icons">edit</i></a>
+                <router-link tag="a" :to="{name: 'editEvent', params: {event: this.event}}" class="btn-small teal lighten-1"><i class="material-icons">edit</i></router-link>
                 <a href="#!" class="btn-small red lighten-1"><i class="material-icons">delete</i></a>
             </div>
         </div>

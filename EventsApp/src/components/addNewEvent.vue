@@ -2,7 +2,8 @@
     <div class="container">
         <h3>Adicionar novo evento</h3>
         <hr>
-        <div class="row">
+        <br>
+        <div class="row white z-depth-2 form-row">
             <form class="col s12">
                 <div class="row">
                     <div class="input-field col s6">
@@ -57,7 +58,10 @@
                 <div class="row">
                     <div class="input-field col s12 tagsCol">
                         <p>Tags</p>
-                        <div v-for="(tag, idx) in allTagsArray" :key="idx">
+                         <div v-if="allTagsArray == null" class="progress col s6 center">
+                            <div class="indeterminate"></div>
+                        </div>
+                        <div v-else v-for="(tag, idx) in allTagsArray" :key="idx">
                             <label>
                                 <input type="checkbox" class="filled-in" :value="tag" v-model="newEvent.selectedTags"/>
                                 <span>{{tag}}</span>
@@ -65,46 +69,48 @@
                         </div>
                     </div>
                 </div>
+                <hr>
+                <div class="row">
+                    <div class="input-field col">
+                        <button class="btn waves-effect waves-light red" type="cancel" name="action">Cancelar
+                            <i class="material-icons right">close</i>
+                        </button>
+                    </div>
+                    <div class="input-field col">
+                        <button class="btn waves-effect waves-light green" type="submit" name="action">Salvar
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
             </form>
             {{newEvent}}
-            <p>Start Date: {{newEvent.startDate.toString()}}</p>
         </div>
     </div>
 </template>
 
 <script>
-//Initialize datepicker and timepicker with portuguese translation
-// $(document).ready(function(){
-//     $('.datepicker').datepicker({
-//         i18n: {
-//             months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-//             monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-//             weekdays: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabádo'],
-//             weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-//             weekdaysAbbrev: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-//             today: 'Hoje',
-//             clear: 'Limpar',
-//             cancel: 'Sair',
-//             done: 'Confirmar',
-//             labelMonthNext: 'Próximo mês',
-//             labelMonthPrev: 'Mês anterior',
-//             labelMonthSelect: 'Selecione um mês',
-//             labelYearSelect: 'Selecione um ano',
-//             selectMonths: true,
-//             selectYears: 15,
-//         },
-//         format: 'dd mmmm, yyyy',
-//         container: 'body',
-//         minDate: new Date(),
-//         autoClose: true,
-//     });
-// });
-   
-
-
 import { db } from '../firebase'
 
 export default {
+    // props: {
+    //     event: {
+    //         type: Object,
+    //         default: function(){
+    //             return{
+    //                 title: '',
+    //                 description: '',
+    //                 startDate: '',
+    //                 startTime: '',
+    //                 endDate: '',
+    //                 endTime: '',
+    //                 totalAmtTickets: null,
+    //                 ticketPrice: null,
+    //                 soldTickets: null,
+    //                 selectedTags: []
+    //             }
+    //         }
+    //     }
+    // },
     data(){
         return{
             newEvent: {
@@ -117,7 +123,7 @@ export default {
                 totalAmtTickets: null,
                 ticketPrice: null,
                 soldTickets: null,
-                selectedTags: []
+                tags: []
             },
 
             allTags_db:null,
@@ -222,6 +228,15 @@ export default {
     mounted(){
         this.initializeTimePicker()
         this.initializeDatePicker()
+
+        //Initialize newEvent property
+        if(this.$route.params.event){
+            this.newEvent = this.$route.params.event
+            console.log("TEm bagulho vindo", this.$route.params.event)
+        }
+        else{
+            console.log("veio nd")
+        }
     },
 }
 </script>
@@ -230,5 +245,8 @@ export default {
 .tagsCol > div{
     display: inline-block;
     padding: 0 7px;
+}
+.form-row{
+    padding: 10px
 }
 </style>

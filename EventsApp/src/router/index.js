@@ -16,6 +16,11 @@ export default new Router({
       path: '/addNewEvent',
       name: 'addNewEvent',
       component: addNewEvent
+    },
+    {
+      path: '/editEvent/:event',
+      name: 'editEvent',
+      component: addNewEvent
     }
   ],
   mode: 'history'
