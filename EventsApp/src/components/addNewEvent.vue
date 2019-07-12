@@ -1,50 +1,50 @@
 <template>
     <div class="container">
-        <h3>Adicionar novo evento</h3>
+        <h3>{{headerMessage}}</h3>
         <hr>
         <br>
         <div class="row white z-depth-2 form-row">
             <form class="col s12">
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="event_title" type="text" class="validate" v-model="newEvent.title">
+                        <input id="event_title" type="text" class="validate" required v-model="newEvent.title">
                         <label for="event_title">Título do evento</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <textarea id="event_description" type="text" class="validate materialize-textarea" v-model="newEvent.description"></textarea>
+                        <textarea id="event_description" type="text" class="validate materialize-textarea" required v-model="newEvent.description"></textarea>
                         <label for="event_description">Descrição do evento</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col m3 s12">
-                        <input id="event_startDate" type="text" class="datepicker validate" v-model="newEvent.startDate">
+                        <input id="event_startDate" type="text" class="datepicker validate" required v-model="newEvent.startDate">
                         <label for="event_startDate">Data de início</label>
                     </div>
                     <div class="input-field col m2 s12">
-                        <input id="event_startTime" type="text" class="timepicker validate" v-model="newEvent.startTime">
+                        <input id="event_startTime" type="text" class="timepicker validate" required v-model="newEvent.startTime">
                         <label for="event_startTime">Hora de início</label>
                     </div>
                     <div class="col s2 center">
                         <h5>-</h5>
                     </div>
                     <div class="input-field col m3 s12">
-                        <input id="event_endDate" type="text" class="datepicker validate" v-model="newEvent.endDate">
+                        <input id="event_endDate" type="text" class="datepicker validate" required v-model="newEvent.endDate">
                         <label for="event_endDate">Data de término</label>
                     </div>
                     <div class="input-field col m2 s12">
-                        <input id="event_endTime" type="text" class="timepicker validate" v-model="newEvent.endTime">
+                        <input id="event_endTime" type="text" class="timepicker validate" required v-model="newEvent.endTime">
                         <label for="event_endTime">Hora de término</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col m3 s12">
-                        <input id="event_totalAmtTickets" type="number" class="validate" v-model="newEvent.totalAmtTickets">
+                        <input id="event_totalAmtTickets" type="number" class="validate" required v-model="newEvent.totalAmtTickets">
                         <label for="event_totalAmtTickets">Número total de ingressos</label>
                     </div>
                     <div class="input-field col m3 s12">
-                        <input id="event_ticketPrice" type="number" class="validate" min="0" step="any" v-model="newEvent.ticketPrice">
+                        <input id="event_ticketPrice" type="number" class="validate" min="0" step="any" required v-model="newEvent.ticketPrice">
                         <label for="event_ticketPrice"><i class="material-icons left">attach_money</i> Preço por ingresso</label>
                     </div>
                 </div>
@@ -63,9 +63,10 @@
                         </div>
                         <div v-else v-for="(tag, idx) in allTagsArray" :key="idx">
                             <label>
-                                <input type="checkbox" class="filled-in" :value="tag" v-model="newEvent.selectedTags"/>
+                                <input type="checkbox" :id="`tag_${tag}`" class="filled-in" :value="tag" v-model="newEvent.tags"/>
                                 <span>{{tag}}</span>
                             </label>
+                                <!-- <label :for="`tag_${tag}`">{{tag}}</label> -->
                         </div>
                     </div>
                 </div>
@@ -92,25 +93,6 @@
 import { db } from '../firebase'
 
 export default {
-    // props: {
-    //     event: {
-    //         type: Object,
-    //         default: function(){
-    //             return{
-    //                 title: '',
-    //                 description: '',
-    //                 startDate: '',
-    //                 startTime: '',
-    //                 endDate: '',
-    //                 endTime: '',
-    //                 totalAmtTickets: null,
-    //                 ticketPrice: null,
-    //                 soldTickets: null,
-    //                 selectedTags: []
-    //             }
-    //         }
-    //     }
-    // },
     data(){
         return{
             newEvent: {
@@ -129,6 +111,17 @@ export default {
             allTags_db:null,
             allTagsArray: null,
         }
+    },
+    computed: {
+        headerMessage(){
+            if(this.$route.name == 'addNewEvent' ){    
+                return 'Adicionar novo evento'
+            }
+            else if(this.$route.name == 'editEvent'){
+                return 'Editanto evento'
+            }
+            
+        },
     },
     firestore(){
         return{
@@ -151,22 +144,27 @@ export default {
         },
         initializeTimePicker(){
             let vm = this;
+            let currentTimePicker = null;
             let elems = document.querySelectorAll('.timepicker');
             let instances = M.Timepicker.init(elems, {
-                onSelect(hr, min){
+                onOpenEnd(){
                     //Check which input form is open to assign the time value to the right property
-                    console.log("Hora " + hr + "  - Min " + min)
+                    // console.log("Hora " + hr + "  - Min " + min)
                     elems.forEach((e) => {
                         if(e.M_Timepicker.isOpen){
-                            console.log("Current open element", e.M_Timepicker);
-                            if(e.M_Timepicker.el.id == "event_startTime"){
-                                vm.newEvent.startTime = `${vm.pad(hr, 2)}:${vm.pad(min, 2)}`
-                            }
-                            else if(e.M_Timepicker.el.id == "event_endTime"){
-                                vm.newEvent.endTime = `${vm.pad(hr, 2)}:${vm.pad(min, 2)}`
-                            }
+                            //Store currentTimePicker object
+                            currentTimePicker = e.M_Timepicker
+                            
                         }
                     })
+                },
+                onCloseEnd(){
+                    if(currentTimePicker.el.id == "event_startTime"){
+                        vm.newEvent.startTime = currentTimePicker.el.value
+                    }
+                    else if(currentTimePicker.el.id == "event_endTime"){
+                        vm.newEvent.endTime = currentTimePicker.el.value
+                    }
                 },
                 i18n: {
                     cancel: 'Sair',
@@ -185,7 +183,6 @@ export default {
                     elems.forEach((e) => {
                         if(e.M_Datepicker.isOpen){
                             currentDatePicker = e.M_Datepicker;
-                            console.log("Current open element", currentDatePicker);
                         }
                     })
                 },
@@ -193,11 +190,9 @@ export default {
                 onClose(){
                     if(currentDatePicker.el.id == "event_startDate"){
                         vm.newEvent.startDate = currentDatePicker.el.value
-                        console.log(currentDatePicker)
                     }
                     else if(currentDatePicker.el.id == "event_endDate"){
                         vm.newEvent.endDate = currentDatePicker.el.value
-                        console.log(currentDatePicker)
                     }
                 },
                 i18n: {
@@ -217,7 +212,7 @@ export default {
                     selectMonths: true,
                     selectYears: 15,
                 },
-                format: 'dd - mm - yyyy',
+                format: 'dd-mm-yyyy',
                 container: 'body',
                 minDate: new Date(),
                 autoClose: true,
@@ -226,17 +221,24 @@ export default {
         }
     },
     mounted(){
-        this.initializeTimePicker()
-        this.initializeDatePicker()
-
         //Initialize newEvent property
         if(this.$route.params.event){
             this.newEvent = this.$route.params.event
-            console.log("TEm bagulho vindo", this.$route.params.event)
+            console.log("Tem bagulho vindo", this.$route.params.event)
         }
         else{
             console.log("veio nd")
         }
+        
+        this.initializeTimePicker()
+        this.initializeDatePicker()
+
+        
+        //Reinitialize Materialize lables and text area
+        setTimeout(()=>{
+            M.updateTextFields();
+            M.textareaAutoResize($('#event_description'));
+            }, 10)
     },
 }
 </script>

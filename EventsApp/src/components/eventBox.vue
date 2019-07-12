@@ -1,6 +1,6 @@
 <template>
     <div class="collection">
-        <div class="collection-item row stretch">
+        <div class="collection-item row stretch" @click="$router.push({name: 'editEvent', params: {event: event}})">
             <div class="col m3 s12 title">
                 <span>{{this.event.title}}</span>
                 <hr>
@@ -20,7 +20,7 @@
             </div>
             <div class="icons col m2 s12">
                 <router-link tag="a" :to="{name: 'editEvent', params: {event: this.event}}" class="btn-small teal lighten-1"><i class="material-icons">edit</i></router-link>
-                <a href="#!" class="btn-small red lighten-1"><i class="material-icons">delete</i></a>
+                <router-link tag="a" to="/" class="btn-small red lighten-1"><i class="material-icons">delete</i></router-link>
             </div>
         </div>
     </div>

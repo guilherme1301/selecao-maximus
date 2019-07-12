@@ -8,7 +8,7 @@
         </ul>
       </div>
     </nav>
-    <router-view></router-view>
+    <router-view :key="componentKey"></router-view>
   </div>
 </template>
 
@@ -18,6 +18,15 @@ export default {
   name: 'App',
   data(){
     return {
+      componentKey: 0,
+    }
+  },
+  watch: {
+    $route(to, from){
+      if(to.name == 'addNewEvent'){
+        console.log(to)
+        this.componentKey++
+      }
     }
   }
 }

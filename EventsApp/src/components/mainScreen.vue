@@ -57,7 +57,6 @@ export default {
   },
   watch: {
     events(val){
-      console.log(val)
       if(val.length > 0 ){
         this.eventsLoaded = true;
         this.noEvents = false;
