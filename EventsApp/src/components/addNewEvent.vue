@@ -1,9 +1,8 @@
 <template>
     <div class="container">
         <h3>{{headerMessage}}</h3>
-        <hr>
         <br>
-        <div class="row white z-depth-2 form-row">
+        <div class="row z-depth-2 form-row">
             <form class="col s12" @submit.prevent="submit">
                 <div class="row">
                     <div class="input-field col s6">
@@ -84,7 +83,6 @@
                     </div>
                 </div>
             </form>
-            {{newEvent}}
         </div>
     </div>
 </template>
@@ -262,6 +260,13 @@ export default {
     padding: 0 7px;
 }
 .form-row{
-    padding: 10px
+    padding: 10px;
+    background-color: #41469369;
+}
+ label{
+    color: #fff
+}
+.helper-text{
+    color: #9e9e9e;
 }
 </style>

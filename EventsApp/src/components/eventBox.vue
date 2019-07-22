@@ -4,7 +4,7 @@
             <div class="col m3 s12 title">
                 <span>{{this.event.title}}</span>
                 <hr>
-                <p style="font-size: 15px; color: #494949">
+                <p style="font-size: 15px; color: #ffffffc2">
                     <i class="material-icons left" style="margin-right: 5px">confirmation_number</i> Ingressos restantes: <br>
                     {{this.event.availableTickets}} ({{this.event.totalAmtTickets - this.event.availableTickets}} usados)</p>
             </div>
@@ -14,7 +14,7 @@
                     {{tag}}
                 </div>
             </div>
-            <div class="col m2 s12 center-align grey lighten-3">
+            <div class="col m2 s12 center-align grey">
                 <p style="font-weight: bold">{{this.eventDate}}</p>
                 <p>{{this.event.startTime}} - {{this.event.endTime}}</p>
             </div>
@@ -67,17 +67,23 @@ export default {
 .title{
     font-size: 20px
 }
+.grey{
+    background-color: #f0beff4d !important;
+}
 .collection{
     margin: 1rem 0 1rem 0;
+    border: none;
+    box-shadow: 0 0 20px 0px #000;
 }
 .collection .collection-item{
     transition: .2s;
     cursor: pointer;
     border-left: 10px solid green;
     padding: 0 10px;
+    background-color: #240045d1;
 }
 .collection .collection-item:hover{
-    background-color: #00000017;
+    background-color: #13002430 ;
 }
 .collection .collection-item .col{
     padding-top: 10px;

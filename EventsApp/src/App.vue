@@ -34,7 +34,7 @@ export default {
 
 <style>
 nav{
-  background-color: #06031c;
+  background-color: #482281;
   text-align: center;
 }
 .nav-wrapper{
@@ -45,4 +45,8 @@ nav{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 } 
+body{
+  background: #0d0112;
+  color: #fff;
+}
 </style>
