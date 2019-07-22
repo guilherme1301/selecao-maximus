@@ -1,6 +1,6 @@
 <template>
     <div class="collection">
-        <div class="collection-item row stretch" @click="$router.push({name: 'editEvent', params: {event: event}})">
+        <div class="collection-item row stretch" @click.prevent="$router.push({name: 'editEvent', params: {event: event}})">
             <div class="col m3 s12 title">
                 <span>{{this.event.title}}</span>
                 <hr>
@@ -15,22 +15,48 @@
                 </div>
             </div>
             <div class="col m2 s12 center-align grey lighten-3">
-                <p style="font-weight: bold">24/03/2019</p>
-                <p>08:00 - 16:00</p>
+                <p style="font-weight: bold">{{this.eventDate}}</p>
+                <p>{{this.event.startTime}} - {{this.event.endTime}}</p>
             </div>
             <div class="icons col m2 s12">
                 <router-link tag="a" :to="{name: 'editEvent', params: {event: this.event}}" class="btn-small teal lighten-1"><i class="material-icons">edit</i></router-link>
-                <router-link tag="a" to="/" class="btn-small red lighten-1"><i class="material-icons">delete</i></router-link>
+                <a @click="deleteEvent()" class="btn-small red lighten-1"><i class="material-icons">delete</i></a>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { db } from '../firebase'
+
 export default {
     props:[
         'event'
-    ]
+    ],
+    computed: {
+        eventDate(){
+            if(this.event.startDate == this.event.endDate){
+                return this.event.startDate;
+            }
+            else{
+                return `${this.event.startDate} até ${this.event.endDate}`
+            }
+        }
+    },
+    methods: {
+        deleteEvent(){
+            if(confirm("Tem certeza que quer deletar esse evento?")){
+                db.collection('events').doc(this.event.id).delete()
+                    .then(resp => {
+                        console.log("Evento deletado com sucesso!")
+                        console.log(resp)
+                    })
+                    .catch( err => {
+                        console.log(err)
+                    })
+            }
+        }
+    },
 }
 </script>
 

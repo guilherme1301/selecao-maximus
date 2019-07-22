@@ -4,7 +4,7 @@
         <hr>
         <br>
         <div class="row white z-depth-2 form-row">
-            <form class="col s12">
+            <form class="col s12" @submit.prevent="submit">
                 <div class="row">
                     <div class="input-field col s6">
                         <input id="event_title" type="text" class="validate" required v-model="newEvent.title">
@@ -73,12 +73,12 @@
                 <hr>
                 <div class="row">
                     <div class="input-field col">
-                        <button class="btn waves-effect waves-light red" type="cancel" name="action">Cancelar
+                        <button class="btn waves-effect waves-light red" type="cancel" name="cancelar">Cancelar
                             <i class="material-icons right">close</i>
                         </button>
                     </div>
                     <div class="input-field col">
-                        <button class="btn waves-effect waves-light green" type="submit" name="action">Salvar
+                        <button class="btn waves-effect waves-light green" type="submit" name="salvar">Salvar
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
@@ -110,6 +110,7 @@ export default {
 
             allTags_db:null,
             allTagsArray: null,
+            events_dataBase: null,
         }
     },
     computed: {
@@ -125,7 +126,7 @@ export default {
     },
     firestore(){
         return{
-            allTags_db: db.collection('tags')
+            allTags_db: db.collection('tags'),
         }
     },
     watch: {
@@ -218,17 +219,29 @@ export default {
                 autoClose: true,
                 twelveHour: false,
             });
+        },
+
+        submit(){
+            db.collection('events').add(this.newEvent)
+                .then( resp => {
+                    console.log("Evento criado com sucesso!");
+                    console.log(resp);
+                    this.$router.push({name: 'mainScreen'});
+                })
+                .catch( err => {
+                    console.log(err)
+                })
+        },
+        checkForm(value){
+            console.log("Ta checando ", value)
         }
     },
     mounted(){
         //Initialize newEvent property
         if(this.$route.params.event){
             this.newEvent = this.$route.params.event
-            console.log("Tem bagulho vindo", this.$route.params.event)
         }
-        else{
-            console.log("veio nd")
-        }
+        console.log(this.newEvent)
         
         this.initializeTimePicker()
         this.initializeDatePicker()
@@ -236,8 +249,8 @@ export default {
         
         //Reinitialize Materialize lables and text area
         setTimeout(()=>{
-            M.updateTextFields();
-            M.textareaAutoResize($('#event_description'));
+                M.updateTextFields();
+                M.textareaAutoResize($('#event_description'));
             }, 10)
     },
 }
