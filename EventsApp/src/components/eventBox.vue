@@ -5,8 +5,12 @@
                 <span>{{this.event.title}}</span>
                 <hr>
                 <p style="font-size: 15px; color: #ffffffc2">
-                    <i class="material-icons left" style="margin-right: 5px">confirmation_number</i> Ingressos restantes: <br>
-                    {{this.event.availableTickets}} ({{this.event.totalAmtTickets - this.event.availableTickets}} usados)</p>
+                    <i class="material-icons left" style="margin-right: 5px">confirmation_number</i> <span>Ingressos restantes: <br>
+                    {{this.event.totalAmtTickets - this.event.soldTickets}} ({{this.event.soldTickets}} usados)</span></p>
+                <p style="font-size: 15px; color: #ffffffc2; display: inline-flex">
+                    <i class="material-icons">attach_money</i> <span>Total arrecadado: {{this.totalCash}}</span>
+
+                </p>
             </div>
             <div class="col m5 s12">
                 <p>{{this.event.description}}</p>
@@ -41,6 +45,12 @@ export default {
             else{
                 return `${this.event.startDate} até ${this.event.endDate}`
             }
+        },
+        totalCash(){
+            // if(Number.isInteger(this.event.ticketPrice * this.event.soldTickets)){
+            //     return `${this.event.ticketPrice * this.event.soldTickets}.00`;
+            // }
+            return (this.event.ticketPrice * this.event.soldTickets).toFixed(2);
         }
     },
     methods: {
@@ -82,10 +92,10 @@ export default {
     cursor: pointer;
     border-left: 10px solid green;
     padding: 0 10px;
-    background-color: #240045d1;
+    background-color: #240045;
 }
 .collection .collection-item:hover{
-    background-color: #13002430 ;
+    background-color: #150026 ;
 }
 .collection .collection-item .col{
     padding-top: 10px;

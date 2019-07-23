@@ -257,7 +257,7 @@ export default {
 }
 .form-row{
     padding: 10px;
-    background-color: #41469369;
+    background-color: #313678;
 }
 label{
     color: #fff
