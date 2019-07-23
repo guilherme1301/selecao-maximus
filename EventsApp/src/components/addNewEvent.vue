@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h3>{{headerMessage}}</h3>
+        <h3>{{headerMessage}}: <span style="text-decoration: underline;">{{this.newEvent.title}}</span></h3>
         <br>
         <div class="row z-depth-2 form-row">
             <form class="col s12" @submit.prevent="submit">
@@ -65,7 +65,6 @@
                                 <input type="checkbox" :id="`tag_${tag}`" class="filled-in" :value="tag" v-model="newEvent.tags"/>
                                 <span>{{tag}}</span>
                             </label>
-                                <!-- <label :for="`tag_${tag}`">{{tag}}</label> -->
                         </div>
                     </div>
                 </div>
@@ -229,9 +228,6 @@ export default {
                 .catch( err => {
                     console.log(err)
                 })
-        },
-        checkForm(value){
-            console.log("Ta checando ", value)
         }
     },
     mounted(){
@@ -263,10 +259,13 @@ export default {
     padding: 10px;
     background-color: #41469369;
 }
- label{
+label{
     color: #fff
 }
 .helper-text{
     color: #9e9e9e;
+}
+.input-field input, .input-field textarea{
+    color: #fff;
 }
 </style>

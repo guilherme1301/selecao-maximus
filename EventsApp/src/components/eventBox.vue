@@ -1,6 +1,6 @@
 <template>
     <div class="collection">
-        <div class="collection-item row stretch" @click.prevent="$router.push({name: 'editEvent', params: {event: event}})">
+        <div class="collection-item row stretch" @click.self="this.router.push({name: 'editEvent', params: {event: this.event}})">
             <div class="col m3 s12 title">
                 <span>{{this.event.title}}</span>
                 <hr>
@@ -20,7 +20,7 @@
             </div>
             <div class="icons col m2 s12">
                 <router-link tag="a" :to="{name: 'editEvent', params: {event: this.event}}" class="btn-small teal lighten-1"><i class="material-icons">edit</i></router-link>
-                <a @click="deleteEvent()" class="btn-small red lighten-1"><i class="material-icons">delete</i></a>
+                <button @click="deleteEvent()" class="btn-small red lighten-1"><i class="material-icons">delete</i></button>
             </div>
         </div>
     </div>
@@ -54,13 +54,15 @@ export default {
                     .catch( err => {
                         console.log(err)
                     })
+            }else{
+                return
             }
         }
     },
 }
 </script>
 
-<style>
+<style scoped>
 .icons{
     text-align: right
 }

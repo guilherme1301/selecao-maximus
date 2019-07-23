@@ -24,7 +24,6 @@ export default {
   watch: {
     $route(to, from){
       if(to.name == 'addNewEvent'){
-        console.log(to)
         this.componentKey++
       }
     }
@@ -34,7 +33,7 @@ export default {
 
 <style>
 nav{
-  background-color: #482281;
+  background-color: #4b006878;
   text-align: center;
 }
 .nav-wrapper{
@@ -45,8 +44,5 @@ nav{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 } 
-body{
-  background: #0d0112;
-  color: #fff;
-}
+
 </style>
