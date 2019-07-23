@@ -128,8 +128,8 @@ export default {
     }
 
     window.onmousemove = function(parameter) {
-        mousePosition.x = parameter.pageX
-        mousePosition.y = parameter.pageY
+        mousePosition.x = parameter.clientX
+        mousePosition.y = parameter.clientY
     }
     mousePosition.x = window.innerWidth / 2
     mousePosition.y = window.innerHeight / 2

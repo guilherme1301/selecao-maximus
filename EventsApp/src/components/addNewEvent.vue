@@ -1,9 +1,9 @@
 <template>
     <div class="container">
-        <h3>{{headerMessage}}: <span style="text-decoration: underline;">{{this.newEvent.title}}</span></h3>
+        <h3>{{headerMessage}} <span style="text-decoration: underline;">{{this.newEvent.title}}</span></h3>
         <br>
         <div class="row z-depth-2 form-row">
-            <form class="col s12" @submit.prevent="submit">
+            <form class="col s12">
                 <div class="row">
                     <div class="input-field col s6">
                         <input id="event_title" type="text" class="validate" required v-model="newEvent.title">
@@ -71,12 +71,12 @@
                 <hr>
                 <div class="row">
                     <div class="input-field col">
-                        <button class="btn waves-effect waves-light red" type="cancel" name="cancelar">Cancelar
+                        <button class="btn waves-effect waves-light red" @click.prevent="cancel">Cancelar
                             <i class="material-icons right">close</i>
                         </button>
                     </div>
                     <div class="input-field col">
-                        <button class="btn waves-effect waves-light green" type="submit" name="salvar">Salvar
+                        <button class="btn waves-effect waves-light green" type="submit" name="salvar" @click.prevent="submit">Salvar
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
@@ -116,7 +116,7 @@ export default {
                 return 'Adicionar novo evento'
             }
             else if(this.$route.name == 'editEvent'){
-                return 'Editanto evento'
+                return 'Editanto evento:'
             }
             
         },
@@ -219,15 +219,30 @@ export default {
         },
 
         submit(){
-            db.collection('events').add(this.newEvent)
-                .then( resp => {
-                    console.log("Evento criado com sucesso!");
-                    console.log(resp);
-                    this.$router.push({name: 'mainScreen'});
-                })
-                .catch( err => {
-                    console.log(err)
-                })
+            if(!this.$route.params.event){
+                db.collection('events').add(this.newEvent)
+                    .then( resp => {
+                        console.log("Evento criado com sucesso!");
+                        console.log(resp);
+                        this.$router.push({name: 'mainScreen'});
+                    })
+                    .catch( err => {
+                        console.log(err)
+                    })
+            }
+            else{
+                db.collection('events').doc(this.newEvent.id).update(this.newEvent)
+                    .then( resp => {
+                        console.log("Evento editado com sucesso!", resp)
+                        this.$router.push({name: 'mainScreen'});
+                    })
+                    .catch( err => {
+                        console.log(err)
+                    })
+            }
+        },
+        cancel(){
+            this.$router.push({name: 'mainScreen'})
         }
     },
     mounted(){

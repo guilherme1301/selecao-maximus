@@ -6,7 +6,7 @@
                 <hr>
                 <p style="font-size: 15px; color: #ffffffc2">
                     <i class="material-icons left" style="margin-right: 5px">confirmation_number</i> <span>Ingressos restantes: <br>
-                    {{this.event.totalAmtTickets - this.event.soldTickets}} ({{this.event.soldTickets}} usados)</span></p>
+                    {{this.event.totalAmtTickets - this.event.soldTickets}} ({{ this.event.soldTickets == null ? `0` : this.event.soldTickets}} usados)</span></p>
                 <p style="font-size: 15px; color: #ffffffc2; display: inline-flex">
                     <i class="material-icons">attach_money</i> <span>Total arrecadado: {{this.totalCash}}</span>
 
@@ -89,7 +89,7 @@ export default {
 }
 .collection .collection-item{
     transition: .2s;
-    cursor: pointer;
+    /* cursor: pointer; */
     border-left: 10px solid green;
     padding: 0 10px;
     background-color: #240045;
